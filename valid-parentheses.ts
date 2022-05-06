@@ -1,19 +1,23 @@
 function isValid(s: string): boolean {
-    const array: Array<string> = s.split("");
+    const cArr: Array<string> = s.split("");
     const stack: Array<string> = [];
-    while(array.length > 0) {
-        if(stack.length > 0 && validPairs[array[array.length - 1]] === stack[stack.length - 1]) {
-            array.pop();   
-            stack.pop();
+    for(const c of cArr) {
+        if(map[c] !== undefined) {
+            stack.push(c);
         } else {
-            const item = array.pop();
-            stack.push(item);
+            if(stack.length === 0) {
+                return false;
+            }
+            const open = stack.pop();
+            if(map[open] !== c) {
+                return false;
+            }
         }
     }
     return stack.length === 0;
 };
 
-const validPairs: { [key: string]: string } = {
+const map: { [key: string]: string } = {
     "(": ")",
     "{": "}",
     "[": "]"
